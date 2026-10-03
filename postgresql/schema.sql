@@ -90,16 +90,13 @@ CREATE TABLE orders (
     recipient_name              VARCHAR(100)    NOT NULL,
     recipient_phone             VARCHAR(16)     NOT NULL,
     price                       NUMERIC(10, 2)  NOT NULL,
-    cod_amount                  NUMERIC(10, 2),
     comment                     TEXT,
     created_at                  TIMESTAMPTZ     NOT NULL DEFAULT now(),
     CONSTRAINT orders_single_origin_chk CHECK (num_nonnulls(origin_address_id, origin_pickup_point_id) = 1),
     CONSTRAINT orders_single_destination_chk CHECK (num_nonnulls(destination_address_id, destination_pickup_point_id) = 1),
     CONSTRAINT orders_courier_required_after_created_chk CHECK (courier_id IS NOT NULL OR status IN ('created', 'dropped_off', 'cancelled')),
     CONSTRAINT orders_estimated_weight_positive_chk CHECK (estimated_weight_g > 0),
-    CONSTRAINT orders_price_non_negative_chk CHECK (price >= 0),
-    CONSTRAINT orders_cod_positive_chk CHECK (cod_amount > 0),
-    CONSTRAINT orders_cod_only_for_companies_chk CHECK (cod_amount IS NULL OR company_id IS NOT NULL)
+    CONSTRAINT orders_price_non_negative_chk CHECK (price >= 0)
 );
 
 CREATE TABLE parcels (

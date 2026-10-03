@@ -58,11 +58,6 @@ UPDATE orders
 SET status = 'picked_up'
 WHERE tracking_code = 'H2J5K8L1ZX';
 
--- ERROR: new row for relation "orders" violates check constraint "orders_cod_only_for_companies_chk"
-UPDATE orders
-SET cod_amount = 1000.00
-WHERE tracking_code = 'K7Q2M9XP4A';
-
 -- ERROR: new row for relation "parcels" violates check constraint "parcels_dimensions_positive_chk"
 INSERT INTO parcels (order_id, weight_g, length_cm, width_cm, height_cm)
 VALUES ((SELECT id FROM orders WHERE tracking_code = 'K7Q2M9XP4A'), 500, 20, 0, 10);
